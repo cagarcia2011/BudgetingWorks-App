@@ -25,7 +25,7 @@ const Dashboard = () => {
   const [showAddExpenseModal, setShowAddExpenseModal] = useState(false);
   const [showAddIncomeModal, setShowAddIncomeModal] = useState(false);
 
-  if (user.isLoading) return <h1>Loading..</h1>
+  if (user.isLoading) return <h1>Loading...</h1>
 
   if (!user.isAuthorized) return <h1>Not Authorized! <Link to='/'>Log In</Link></h1>
 
