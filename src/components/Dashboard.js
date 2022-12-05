@@ -14,6 +14,7 @@ import { useVariableExpenses } from './contexts/VariableExpensesContext';
 
 import AddBudgetModal from './AddBudgetModal';
 import AddExpenseModal from './AddExpenseModal';
+import AddIncomeModal from './AddIncomeModal';
 import { useAuthUser } from './contexts/UserContext';
 
 const Dashboard = () => {
@@ -63,6 +64,10 @@ const Dashboard = () => {
       <AddExpenseModal 
         show={showAddExpenseModal}
         handleClose={() => setShowAddExpenseModal(false)}
+        />
+      <AddIncomeModal
+        show={showAddIncomeModal}
+        handleClose={() => setShowAddIncomeModal(false)}
         />
     </>
   )
