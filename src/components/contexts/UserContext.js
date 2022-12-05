@@ -8,11 +8,12 @@ export const useAuthUser = () => {
 }
 
 export const AuthUserProvider = ({ children }) => {
-    const user = useCurrentUser();
+    const {user, setUser} = useCurrentUser();
 
     return (
        <AuthUser.Provider value={{
-            user
+            user,
+            setUser
        }}>
         {children}
        </AuthUser.Provider>

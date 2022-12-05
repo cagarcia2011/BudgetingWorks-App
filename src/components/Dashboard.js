@@ -3,7 +3,7 @@ import { Stack, Button, ButtonGroup } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container'
 import { Link } from 'react-router-dom';
 
-import { BiRefresh } from 'react-icons/bi'
+import { BiRefresh, BiLogOut } from 'react-icons/bi'
 
 import { gridStyle } from '../styles/styles';
 import BudgetCard from './BudgetCard';
@@ -18,7 +18,7 @@ import AddIncomeModal from './AddIncomeModal';
 import { useAuthUser } from './contexts/UserContext';
 
 const Dashboard = () => {
-  const {user} = useAuthUser();
+  const {user, setUser} = useAuthUser();
   const {budgets, refreshBudgets} = useBudgets();
   const {refreshFixedExpenses} = useFixedExpenses();
   const {refreshVariableExpenses} = useVariableExpenses();
@@ -36,6 +36,15 @@ const Dashboard = () => {
     refreshBudgets()
   }
 
+  function handleLogout(e) {
+    setUser((prev) => ({
+        ...prev,
+        isAuthorized: false,
+        email: "",
+        id: ""
+    }))
+  }
+
   return (
     <>
       <Container className='my-4'>
@@ -50,6 +59,8 @@ const Dashboard = () => {
           <Button variant='primary' onClick={() => setShowAddIncomeModal(true)}>Income</Button>
           <Button variant='outline-primary'><BiRefresh className='fs-1'
                   onClick={handleRefresh}/></Button>
+          <Button variant='outline-primary'><BiLogOut className='fs-1'
+                  onClick={handleLogout}/></Button>
         </ButtonGroup>
       </Stack>
         <div style={gridStyle}>
