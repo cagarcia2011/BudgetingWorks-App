@@ -20,7 +20,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && echo '/* /index.html  200' | cat >build/_redirects",
+    "build": "react-scripts build",
     "test": "jest",
     "eject": "react-scripts eject"
   },
@@ -42,7 +42,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://carlosgi2021.pythonanywhere.com",
+  "proxy": "https://carlosgi2021.pythonanywhere.com/",
   "devDependencies": {
     "jest": "^29.3.1"
   }
