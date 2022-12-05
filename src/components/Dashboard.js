@@ -39,7 +39,10 @@ const Dashboard = () => {
     <>
       <Container className='my-4'>
       <Stack direction="horizontal" gap="2" className='my-4'>
-        <h1 className='me-auto'>Budgets</h1>
+        <div className='me-auto'>
+          <h1 className='me-auto'>Budgets</h1>
+          <h4 className='me-auto'>BudgetingWorks App (Site is under development)</h4>
+        </div>
         <ButtonGroup >
           <Button variant='primary' onClick={() => setShowAddBudgetModal(true)}>Budget</Button>
           <Button variant='primary' onClick={() => setShowAddExpenseModal(true)}>Expense</Button>
