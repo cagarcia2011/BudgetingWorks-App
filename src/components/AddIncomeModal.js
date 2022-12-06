@@ -8,7 +8,7 @@ import { useIncomes } from "./contexts/IncomesContext"
 
 import { parseDate } from "../utils/dateUtils"
 
-const AddIncomeModal = ({show, handleClose}) => {
+const AddIncomeModal = ({show, handleClose, budget_id}) => {
     const {user} = useAuthUser();
     const {budgets, refreshBudgets} = useBudgets()
     const { saveIncome, refreshIncomes } = useIncomes()
@@ -119,7 +119,7 @@ const AddIncomeModal = ({show, handleClose}) => {
                     <Form.Group className="my-3">
                         <FloatingLabel
                             label="Budget">
-                            <Form.Select className="" ref={budgetRef}>
+                            <Form.Select className="" ref={budgetRef} defaultValue={budget_id ? budget_id: null}>
                                 {budgets.length ? budgets.map((budget) => (
                                     <option value={budget.id} key={budget.id}>{budget.monthYear}</option>
                                 )) : <option value="0">No Budgets Found</option>}
