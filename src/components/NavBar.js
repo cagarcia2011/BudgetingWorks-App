@@ -6,7 +6,7 @@ import {BiRefresh, BiLogOut} from 'react-icons/bi'
 
 function NavBar({handleRefresh, handleLogout, setShowAddBudgetModal, setShowAddExpenseModal, setShowAddIncomeModal}) {
   return (
-    <Navbar bg="light" variant="light" expand="sm" fixed="top" className="nav-bar">
+    <Navbar bg="light" variant="light" expand="sm" className="nav-bar">
         <Container>
           <Navbar.Brand className='title nav-bar' href=''>
               BudgetingWorks
