@@ -1,5 +1,5 @@
-import { Form, Modal, Button, FloatingLabel, InputGroup } from "react-bootstrap"
-import { useRef, useState } from "react"
+import { Form, Modal, Button, FloatingLabel, InputGroup, Alert } from "react-bootstrap"
+import { useEffect, useRef, useState } from "react"
 
 import { useAuthUser } from "./contexts/UserContext"
 import { useBudgets } from "./contexts/BudgetsContext"
@@ -16,12 +16,37 @@ const AddExpenseModal = ({show, handleClose}) => {
 
     const [isVariable, setIsVariable] = useState(true)
 
+    const [alertInfo, setAlertInfo] = useState({
+        show: false,
+        message: "",
+        variant: "primay"
+    })
+
     const categoryRef = useRef()
     const typeRef = useRef()
     const budgetRef = useRef()
     const amountRef = useRef()
     const commentsRef = useRef()
     const txnDateRef = useRef()
+
+    useEffect(() => {
+        if (show) {
+            console.log("Checked budgets length.")
+            if (budgets.length === 0) {
+                setAlertInfo({
+                    show: true,
+                    message: "No budgets found.",
+                    variant: "danger"
+                })
+            } else {
+                setAlertInfo({
+                    show: false,
+                    message: "",
+                    variant: "primary"
+                })
+            }
+        }
+    }, [budgets.length, show])
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -69,9 +94,16 @@ const AddExpenseModal = ({show, handleClose}) => {
         setIsVariable(type==="variable")
     }
 
+    function handleSubmitWithAlert(e) {
+        e.preventDefault()
+    }
+
     return (
         <Modal show={show} onHide={handleClose} >
-            <Form onSubmit={handleSubmit} >
+            <Alert show={alertInfo.show} variant={alertInfo.variant}>
+                {alertInfo.message}
+            </Alert>
+            <Form onSubmit={alertInfo.show ? handleSubmitWithAlert : handleSubmit} >
                 <Modal.Header closeButton>
                     <Modal.Title>New Expense</Modal.Title>
                 </Modal.Header>
@@ -150,7 +182,7 @@ const AddExpenseModal = ({show, handleClose}) => {
                         </FloatingLabel>
                     </Form.Group>
                     <div className="d-flex justify-content-end my-3">
-                        <Button variant="primary" type="submit">
+                        <Button variant={alertInfo.show ? "secondary" : "primary"} type="submit">
                             Add
                         </Button>
                     </div>

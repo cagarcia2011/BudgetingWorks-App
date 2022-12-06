@@ -2,7 +2,6 @@ import { Route, Routes, BrowserRouter} from 'react-router-dom';
 import Dashboard from './components/Dashboard';
 import Login from './components/Login';
 import Budget from './components/Budget';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (

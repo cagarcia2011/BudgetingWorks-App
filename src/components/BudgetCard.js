@@ -55,8 +55,6 @@ const BudgetCard = ({ budget, index }) => {
                         <></>}
                 </div>
                 <Stack direction='horizontal' gap='2' className='mt-4'>
-                    <Button variant='primary' className='ms-auto'>Add Income</Button>
-                    <Button variant='outline-primary' className=''>Add Expense</Button>
                     <Button variant='outline-secondary' className='' onClick={() => setShowEditBudgetModal(true)}>Edit</Button>
                     <Button variant='outline-danger' className='' onClick={() => setShowDeleteBudgetModal(true)}>Delete</Button>
                 </Stack>

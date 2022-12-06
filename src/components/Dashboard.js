@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import { Stack, Button, ButtonGroup } from 'react-bootstrap';
-import Container from 'react-bootstrap/Container'
 import { Link } from 'react-router-dom';
 
-import { BiRefresh, BiLogOut } from 'react-icons/bi'
+import Container from 'react-bootstrap/Container'
 
 import { gridStyle } from '../styles/styles';
 import BudgetCard from './BudgetCard';
@@ -16,6 +14,7 @@ import AddBudgetModal from './AddBudgetModal';
 import AddExpenseModal from './AddExpenseModal';
 import AddIncomeModal from './AddIncomeModal';
 import { useAuthUser } from './contexts/UserContext';
+import NavBar from './NavBar';
 
 const Dashboard = () => {
   const {user, setUser} = useAuthUser();
@@ -47,22 +46,14 @@ const Dashboard = () => {
 
   return (
     <>
+      <NavBar 
+        handleRefresh={handleRefresh} 
+        handleLogout={handleLogout} 
+        setShowAddBudgetModal={setShowAddBudgetModal}
+        setShowAddIncomeModal={setShowAddIncomeModal}
+        setShowAddExpenseModal={setShowAddExpenseModal}
+        />
       <Container className='my-4'>
-      <Stack direction="horizontal" gap="2" className='my-4'>
-        <div className='me-auto'>
-          <h1 className='me-auto'>Budgets</h1>
-          <h4 className='me-auto'>BudgetingWorks App (Site is under development)</h4>
-        </div>
-        <ButtonGroup >
-          <Button variant='primary' onClick={() => setShowAddBudgetModal(true)}>Budget</Button>
-          <Button variant='primary' onClick={() => setShowAddExpenseModal(true)}>Expense</Button>
-          <Button variant='primary' onClick={() => setShowAddIncomeModal(true)}>Income</Button>
-          <Button variant='outline-primary'><BiRefresh className='fs-1'
-                  onClick={handleRefresh}/></Button>
-          <Button variant='outline-primary'><BiLogOut className='fs-1'
-                  onClick={handleLogout}/></Button>
-        </ButtonGroup>
-      </Stack>
         <div style={gridStyle}>
           {budgets.map((budget, index) => (
             <BudgetCard key={budget.id} budget={budget} index={index}/>
