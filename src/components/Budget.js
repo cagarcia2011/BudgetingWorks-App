@@ -1,26 +1,32 @@
-import { useParams } from "react-router-dom"
-import { useBudgets } from "./contexts/BudgetsContext";
-import { currencyFormater } from "../utils";
-import { Button, Stack } from "react-bootstrap";
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import Container from 'react-bootstrap/Container'
+
+import { redirect, useParams } from "react-router-dom"
+
+import { Button, Stack, Container, Dropdown, ProgressBar } from "react-bootstrap";
+
 import EditBudgetModal from "./EditBudgetModal";
+import DeleteBudgetModal from "./DeleteBudgetModal";
+import AddIncomeModal from "./AddIncomeModal";
+import AddExpenseModal from "./AddExpenseModal";
+import { useBudgets } from "./contexts/BudgetsContext";
 import { useAuthUser } from "./contexts/UserContext";
+import { currencyFormater, getVariant } from "../utils";
 
 const Budget = () => {
     const params = useParams();
+    const index = params.index ? params.index : null;
     const {user} = useAuthUser();
     const { budgets } = useBudgets();
-    // const [showDeleteBudgetModal, setShowDeleteBudgetModal] = useState(false)
+    const [showDeleteBudgetModal, setShowDeleteBudgetModal] = useState(false)
     const [showEditBudgetModal, setShowEditBudgetModal] = useState(false)
-    const index = params.index ? params.index : null;
+    const [showAddIncomeModal, setShowAddIncomeModal] = useState(false)
+    const [showAddExpenseModal, setShowAddExpenseModal] = useState(false)
 
-    if (!index) return <>404</>
+    if (!index) return redirect('/dashboard')
 
     if (user.isLoading) return <h1>Loading..</h1>
 
-    if (!user.isAuthorized) return <h1>Not Authorized! <Link to='/'>Log In</Link></h1>
+    if (!user.isAuthorized) return redirect('/')
     
     if (budgets.length === 0) return <h1>No Budgets Found</h1>
     
@@ -29,20 +35,33 @@ const Budget = () => {
     const expenses = budget.expenses
     const income = budget.incomes
     const cash = budget.startingCash
+
   return (
     <>
         <Container className='my-4'>
             <Stack direction="horizontal" gap="2" className='justify-content-between align-items-baseline fw-normal fs-3 mb-3'>
-                <h1 className='me-2 '>Budget {date}</h1>
+                <h1 className='me-2 '>{date}</h1>
                 <div className='d-flex align-items-baseline'>
                     {currencyFormater.format(expenses)} 
                     <span className='text-muted fs-6 ms-1'> / {currencyFormater.format(income + cash)}</span>
                 </div>
             </Stack>
+            <ProgressBar className="rounded-pill" variant={getVariant(expenses, income+cash)} 
+                        min={0}
+                        max={income + cash}
+                        now={expenses}/>
             <Stack direction='horizontal' gap='2' className='my-4'>
-                <Button variant='primary' className='ms-auto'>Add Income</Button>
-                <Button variant='outline-primary' className=''>Add Expense</Button>
+                    <Dropdown >
+                        <Dropdown.Toggle>
+                            Add
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                            <Dropdown.Item varian='primary' className='' onClick={() => setShowAddIncomeModal(true)}>Income</Dropdown.Item>
+                            <Dropdown.Item varian='outline-primary' className='' onClick={() => setShowAddExpenseModal(true)}>Expense</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
                 <Button variant='outline-secondary' className='' onClick={() => setShowEditBudgetModal(true)}>Edit</Button>
+                <Button variant='outline-danger' className='' onClick={() => setShowDeleteBudgetModal(true)}>Delete</Button>
             </Stack>
             <div className='fw-normal my-1 d-flex align-items-center fs-6'>
                 <div>Comments:</div> 
@@ -55,6 +74,18 @@ const Budget = () => {
             show={showEditBudgetModal}
             handleClose={() => setShowEditBudgetModal(false)}
             budget={budget}/>
+        <DeleteBudgetModal
+            show={showDeleteBudgetModal}
+            handleClose={() => setShowDeleteBudgetModal(false)}
+            budgetId={budget.id} />
+        <AddIncomeModal
+            show={showAddIncomeModal}
+            handleClose={() => setShowAddIncomeModal(false)}
+            budget_id={budget.id}/>
+        <AddExpenseModal
+            show={showAddExpenseModal}
+            handleClose={() => setShowAddExpenseModal(false)}
+            budget_id={budget.id}/>
     </>
   )
 }

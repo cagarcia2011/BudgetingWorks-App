@@ -14,6 +14,8 @@ import EditBudgetModal from './EditBudgetModal';
 import AddIncomeModal from './AddIncomeModal';
 import AddExpenseModal from './AddExpenseModal';
 
+import { getVariant } from '../utils';
+
 const BudgetCard = ({ budget, index }) => {
     const [showDeleteBudgetModal, setShowDeleteBudgetModal] = useState(false)
     const [showEditBudgetModal, setShowEditBudgetModal] = useState(false)
@@ -37,7 +39,7 @@ const BudgetCard = ({ budget, index }) => {
     <>  
         <Card >
             <Card.Body>
-                <Link to={`/budget/${index}`} style={{textDecoration: 'none', color: 'inherit'}}>
+                <Link to={`./budget/${index}`} style={{textDecoration: 'none', color: 'inherit'}}>
                     <Container>
                         <Card.Title className='d-flex justify-content-between align-items-baseline fw-normal mb-3'>
                             <div className='me-2 '>{date}</div>
@@ -100,16 +102,6 @@ const BudgetCard = ({ budget, index }) => {
             />
     </>
   )
-}
-
-const getVariant = (amount, max) => {
-    let variant = 'primary'
-    if (max > 0) {
-        if ((amount / max) >= 0.5) variant='warning';
-        if ((amount / max) >= 0.75) variant='danger';
-    }
-
-    return variant
 }
 
 export default BudgetCard
