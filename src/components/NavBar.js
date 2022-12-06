@@ -11,7 +11,7 @@ function NavBar({ expandedMenu, handleCollapse, handleExpand, handleRefresh, han
   return (
     <Navbar bg="light" variant="light" expand="sm" className="nav-bar" expanded={expandedMenu}>
         <Container>
-          <Navbar.Brand className='title nav-bar' href=''>
+          <Navbar.Brand className='title nav-bar' href='/dashboard'>
             BudgetingWorks
             <p className='me-auto subtitle'><MdDeveloperMode className='subtitle'/> Site is under development</p>
           </Navbar.Brand>
