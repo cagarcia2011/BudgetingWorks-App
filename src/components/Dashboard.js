@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { redirect, Routes, Route } from 'react-router-dom';
 
@@ -25,6 +25,7 @@ const Dashboard = () => {
   const [showAddExpenseModal, setShowAddExpenseModal] = useState(false);
   const [showAddIncomeModal, setShowAddIncomeModal] = useState(false);
   const [expandedMenu, setExpandedMenu] = useState(false)
+  const [isLogedOut, setIsLogedOut] = useState(false)
 
   if (user.isLoading) return <h1>Loading...</h1>
 
@@ -43,7 +44,10 @@ const Dashboard = () => {
         email: "",
         id: ""
     }))
+    setIsLogedOut(true)
   }
+
+  if (isLogedOut) return redirect('/')
 
   return (
     <>
