@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
-import { redirect, Routes, Route } from 'react-router-dom';
+import { redirect, Routes, Route, useNavigate } from 'react-router-dom';
 
 import Container from 'react-bootstrap/Container'
+import { Button } from 'react-bootstrap';
 
 import { useBudgets } from './contexts/BudgetsContext';
 import { useFixedExpenses } from './contexts/FixedExpensesContext';
@@ -25,7 +26,8 @@ const Dashboard = () => {
   const [showAddExpenseModal, setShowAddExpenseModal] = useState(false);
   const [showAddIncomeModal, setShowAddIncomeModal] = useState(false);
   const [expandedMenu, setExpandedMenu] = useState(false)
-  const [isLogedOut, setIsLogedOut] = useState(false)
+
+  const navigate = useNavigate()
 
   if (user.isLoading) return <h1>Loading...</h1>
 
@@ -44,10 +46,8 @@ const Dashboard = () => {
         email: "",
         id: ""
     }))
-    setIsLogedOut(true)
+    navigate('/')
   }
-
-  if (isLogedOut) return redirect('/')
 
   return (
     <>
@@ -61,12 +61,19 @@ const Dashboard = () => {
         setShowAddIncomeModal={setShowAddIncomeModal}
         setShowAddExpenseModal={setShowAddExpenseModal}
         />
+      {budgets.length ? 
       <Container className='my-4'>
         <Routes>
           <Route element={<Budgets budgets={budgets} />} path='/' exact />
-          <Route element={<Budget />} path='/budget/:index' exact />
+          <Route element={<Budget handleRefresh={handleRefresh}/>} path='/budget/:index' exact />
         </Routes>
+      </Container> :
+      <Container className='my-4'>
+        <Button variant="primary" className='w-100' onClick={()=> setShowAddBudgetModal(true)} >
+          Add New Budget
+        </Button>
       </Container>
+      }
       <AddBudgetModal 
         show={showAddBudgetModal}
         handleClose={() => setShowAddBudgetModal(false)}/>
