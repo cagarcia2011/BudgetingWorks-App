@@ -1,25 +1,28 @@
 import { Form, Modal, Button } from "react-bootstrap"
 import { useRef } from "react"
-import { useBudgets } from "./contexts/BudgetsContext"
+import { useBudgets } from "../contexts/BudgetsContext"
 
-const AddBudgetModal = ({show, handleClose, userId}) => {
-    const monthRef = useRef();
-    const yearRef = useRef();
+const EditBudgetModal = ({ show, handleClose, budget}) => {
     const startingCashRef = useRef();
     const commentsRef = useRef();
 
-    const { saveBudget } = useBudgets();
+    const { updateBudget } = useBudgets();
 
-    function handleSubmit(e) {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        const budget = {
-            month: parseInt(monthRef.current.value),
-            year: parseInt(yearRef.current.value),
-            startingCash: parseFloat(startingCashRef.current.value),
-            user_id: userId,
+        const budgetData = budget.data()
+        const startingCash = parseFloat(startingCashRef.current.value)
+        const budgetToUpdate = {
+            monthYear: budgetData.monthYear,
+            month: budgetData.month,
+            year: budgetData.year,
+            expenses: budgetData.expenses,
+            incomes: budgetData.incomes,
+            startingCash: startingCash,
+            uid: budgetData.uid,
             comments: commentsRef.current.value
         }
-        saveBudget(budget)
+        await updateBudget(budget.id, budgetToUpdate)
         handleClose()
     }
 
@@ -27,34 +30,10 @@ const AddBudgetModal = ({show, handleClose, userId}) => {
     <Modal show={show} onHide={handleClose} >
         <Form onSubmit={handleSubmit} >
             <Modal.Header closeButton>
-                <Modal.Title>New Budget</Modal.Title>
+                <Modal.Title>Edit Budget {budget.monthYear}</Modal.Title>
             </Modal.Header>
             <Modal.Body >
                 <div className="d-flex mb-3">
-                    <Form.Group className="mx-3">
-                        <Form.Label>Month</Form.Label>
-                        <Form.Control 
-                            ref={monthRef}
-                            type="number"
-                            defaultValue={1}
-                            required
-                            min={1}
-                            max={12}
-                            step={1}/>
-                    </Form.Group>
-                    <Form.Group className="mx-3">
-                        <Form.Label>Year</Form.Label>
-                        <Form.Control
-                            ref={yearRef}
-                            type="number"
-                            defaultValue={2022}
-                            required
-                            min={2000}
-                            max={2100}
-                            step={1}/>
-                    </Form.Group>
-                </div>
-                <div className="d-flex g-1 mb-3">
                     <Form.Group className="mx-3">
                         <Form.Label>StartingCash</Form.Label>
                         <div className="d-flex align-items-center">
@@ -62,7 +41,7 @@ const AddBudgetModal = ({show, handleClose, userId}) => {
                             <Form.Control 
                                 className="mx-2"
                                 ref={startingCashRef}
-                                defaultValue={0.00}
+                                defaultValue={budget.startingCash}
                                 type="number"
                                 required
                                 min={0}
@@ -78,12 +57,13 @@ const AddBudgetModal = ({show, handleClose, userId}) => {
                             rows={3}
                             className="mx-4"
                             ref={commentsRef}
+                            defaultValue={budget.comments}
                             type="text"/>
                     </Form.Group>
                 </div>
                 <div className="d-flex justify-content-end">
                     <Button variant="primary" type="submit">
-                        Add
+                        Save
                     </Button>
                 </div>
             </Modal.Body>
@@ -92,4 +72,4 @@ const AddBudgetModal = ({show, handleClose, userId}) => {
   )
 }
 
-export default AddBudgetModal
+export default EditBudgetModal

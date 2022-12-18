@@ -6,19 +6,17 @@ import { Button, Stack, Container, Dropdown, ProgressBar } from "react-bootstrap
 
 import EditBudgetModal from "./EditBudgetModal";
 import DeleteBudgetModal from "./DeleteBudgetModal";
-import AddIncomeModal from "./AddIncomeModal";
-import AddExpenseModal from "./AddExpenseModal";
-import { useBudgets } from "./contexts/BudgetsContext";
-import { useAuthUser } from "./contexts/UserContext";
-import { currencyFormater, getVariant } from "../utils";
-import { useFixedExpenses } from "./contexts/FixedExpensesContext";
-import { useVariableExpenses } from "./contexts/VariableExpensesContext";
-import Expenses from "./Expenses";
+import AddIncomeModal from "../incomes/AddIncomeModal";
+import AddExpenseModal from "../expenses/AddExpenseModal";
+import { useBudgets } from "../contexts/BudgetsContext";
+import { currencyFormater, getVariant } from "../../utils";
+import { useFixedExpenses } from "../contexts/FixedExpensesContext";
+import { useVariableExpenses } from "../contexts/VariableExpensesContext";
+import Expenses from "../expenses/Expenses";
 
 const Budget = ({ handleRefresh }) => {
     const params = useParams();
     const index = params.index ? params.index : null;
-    const {user} = useAuthUser();
     const { budgets } = useBudgets();
     const { fixedExpenses } = useFixedExpenses();
     const { variableExpenses } = useVariableExpenses();
@@ -29,9 +27,6 @@ const Budget = ({ handleRefresh }) => {
 
     if (!index) return redirect('/dashboard')
 
-    if (user.isLoading) return <h1>Loading..</h1>
-
-    if (!user.isAuthorized) return redirect('/')
     
     if (budgets.length === 0) return <h1>No Budgets Found</h1>
     

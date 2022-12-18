@@ -1,6 +1,5 @@
 import { Form, Modal, Button, Stack } from "react-bootstrap"
-// import { useRef } from "react"
-import { useBudgets } from "./contexts/BudgetsContext"
+import { useBudgets } from "../contexts/BudgetsContext"
 
 const DeleteBudgetModal = ({ date, show, budgetId, handleClose }) => {
     const { deleteBudget } = useBudgets();

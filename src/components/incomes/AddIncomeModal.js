@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from "react"
 import { Modal } from "react-bootstrap"
 import { Form, Button, FloatingLabel, InputGroup, Alert } from "react-bootstrap"
 
-import { useAuthUser } from "./contexts/UserContext"
-import { useBudgets } from "./contexts/BudgetsContext"
-import { useIncomes } from "./contexts/IncomesContext"
+import { useAuthUser } from "../contexts/UserContext"
+import { useBudgets } from "../contexts/BudgetsContext"
+import { useIncomes } from "../contexts/IncomesContext"
 
-import { parseDate } from "../utils/dateUtils"
+import { parseDate } from "../../utils/dateUtils"
 
 const AddIncomeModal = ({show, handleClose, budget_id}) => {
     const {user} = useAuthUser();

@@ -1,6 +1,8 @@
 import { Route, Routes, BrowserRouter} from 'react-router-dom';
 import Dashboard from './components/Dashboard';
-import Login from './components/Login';
+import Login from './components/login/Login';
+import Register from './components/register/Register';
+import ProtectedRoutes from './components/ProtectedRoutes';
 
 function App() {
   return (
@@ -8,7 +10,12 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<Login />} path='/' exact/>
-          <Route element={<Dashboard />} path='/dashboard/*' exact/>
+          <Route element={<Register />} path='/register' exact/>
+          <Route element={
+            <ProtectedRoutes>
+              <Dashboard />
+            </ProtectedRoutes>
+          } path='/dashboard/*' exact/>
         </Routes>
       </BrowserRouter>
     </div>

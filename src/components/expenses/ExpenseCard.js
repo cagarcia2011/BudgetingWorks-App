@@ -7,7 +7,7 @@ import { Card, Container, Stack, Button } from 'react-bootstrap'
 
 import {AiOutlineEye, AiOutlineEyeInvisible} from 'react-icons/ai'
 
-import { currencyFormater } from '../utils'
+import { currencyFormater } from '../../utils'
 
 import DeleteExpenseModal from './DeleteExpenseModal';
 // import EditExpenseModal from './EditExpenseModal;

@@ -2,7 +2,7 @@ import React from 'react'
 
 import ExpenseCard from './ExpenseCard'
 
-import { gridStyle } from '../styles/styles'
+import { gridStyle } from '../../styles/styles'
 
 function Expenses({expenses, budgetMonthYear, type, handleRefresh}) {
   return (

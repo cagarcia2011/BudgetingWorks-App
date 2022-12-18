@@ -1,12 +1,12 @@
 import { Form, Modal, Button, FloatingLabel, InputGroup, Alert } from "react-bootstrap"
 import { useEffect, useRef, useState } from "react"
 
-import { useAuthUser } from "./contexts/UserContext"
-import { useBudgets } from "./contexts/BudgetsContext"
-import { useFixedExpenses } from "./contexts/FixedExpensesContext"
-import { useVariableExpenses } from "./contexts/VariableExpensesContext"
+import { useAuthUser } from "../contexts/UserContext"
+import { useBudgets } from "../contexts/BudgetsContext"
+import { useFixedExpenses } from "../contexts/FixedExpensesContext"
+import { useVariableExpenses } from "../contexts/VariableExpensesContext"
 
-import { parseDate } from "../utils/dateUtils"
+import { parseDate } from "../../utils/dateUtils"
 
 const AddExpenseModal = ({show, handleClose, budget_id}) => {
     const {user} = useAuthUser();

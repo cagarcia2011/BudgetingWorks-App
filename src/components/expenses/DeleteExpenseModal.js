@@ -1,10 +1,10 @@
 import React from 'react'
 import { Modal, Form, Stack, Button } from 'react-bootstrap';
 
-import { useFixedExpenses } from "./contexts/FixedExpensesContext"
-import { useVariableExpenses } from "./contexts/VariableExpensesContext"
+import { useFixedExpenses } from "../contexts/FixedExpensesContext"
+import { useVariableExpenses } from "../contexts/VariableExpensesContext"
 
-import { currencyFormater } from '../utils';
+import { currencyFormater } from '../../utils';
 
 function DeleteExpenseModal({ show, expenseId, expenseType, expenseCategory, expenseAmount, budgetMonthYear, handleClose}) {
     const { deleteFixedExpense, refreshFixedExpenses } = useFixedExpenses();
