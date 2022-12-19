@@ -8,7 +8,7 @@ import App from './App';
 import { BudgetsProvider } from './components/contexts/BudgetsContext';
 // import { FixedExpensesProvider } from './components/contexts/FixedExpensesContext';
 // import { VariableExpensesProvider } from './components/contexts/VariableExpensesContext';
-// import { IncomesProvider } from './components/contexts/IncomesContext';
+import { IncomesProvider } from './components/contexts/IncomesContext';
 import { AuthUserProvider } from './components/contexts/UserContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -16,7 +16,9 @@ root.render(
   <React.StrictMode>
     <AuthUserProvider>
       <BudgetsProvider>
-        <App />
+        <IncomesProvider>
+          <App />
+        </IncomesProvider>
       </BudgetsProvider>
     </AuthUserProvider>
   </React.StrictMode>

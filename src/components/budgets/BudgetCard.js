@@ -9,7 +9,7 @@ import {AiOutlineEye, AiOutlineEyeInvisible} from 'react-icons/ai'
 
 import DeleteBudgetModal from './DeleteBudgetModal';
 import EditBudgetModal from './EditBudgetModal';
-// import AddIncomeModal from '../incomes/AddIncomeModal';
+import AddIncomeModal from '../incomes/AddIncomeModal';
 // import AddExpenseModal from '../expenses/AddExpenseModal';
 
 import { getVariant, currencyFormater } from '../../utils';
@@ -18,7 +18,7 @@ const BudgetCard = ({ budget, index }) => {
     const [showDeleteBudgetModal, setShowDeleteBudgetModal] = useState(false)
     const [showEditBudgetModal, setShowEditBudgetModal] = useState(false)
     const [showComments, setShowComments] = useState(false)
-    // const [showAddIncomeModal, setShowAddIncomeModal] = useState(false)
+    const [showAddIncomeModal, setShowAddIncomeModal] = useState(false)
     // const [showAddExpenseModal, setShowAddExpenseModal] = useState(false)
 
     const budgetData = budget.data()
@@ -76,7 +76,7 @@ const BudgetCard = ({ budget, index }) => {
                             <Dropdown.Item 
                                 varian='primary' 
                                 className='' 
-                                // onClick={() => setShowAddIncomeModal(true)}
+                                onClick={() => setShowAddIncomeModal(true)}
                             >
                                 Income
                             </Dropdown.Item>
@@ -103,10 +103,11 @@ const BudgetCard = ({ budget, index }) => {
             show={showEditBudgetModal}
             handleClose={() => setShowEditBudgetModal(false)}
             budget={budget}/>
-        {/* <AddIncomeModal
+        <AddIncomeModal
             show={showAddIncomeModal}
             handleClose={() => setShowAddIncomeModal(false)}
             budget_id={id}/>
+        {/*
         <AddExpenseModal 
             show={showAddExpenseModal}
             handleClose={() => setShowAddExpenseModal(false)}

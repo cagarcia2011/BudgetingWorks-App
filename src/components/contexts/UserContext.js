@@ -41,6 +41,12 @@ export const AuthUserProvider = ({ children }) => {
         if (!user) return ''
         return user.uid
     })
+    const [displayName, setDisplayName] = useState(() => {
+        const user = auth.currentUser;
+
+        if (!user) return ''
+        return user.displayName
+    })
     const [isAuthorized, setIsAuthorized] = useState(false)
     const [error, setError] = useState("")
 
@@ -75,6 +81,17 @@ export const AuthUserProvider = ({ children }) => {
 
     // Auth Functions
     const googleProvider = new GoogleAuthProvider();
+
+    const saveUser = async (user) => {
+        try {
+            await addDoc(collection(db, "users"), user)
+
+        } catch (err) {
+            console.error(err)
+            setError(err.message)
+        }
+    }
+
     const signInWithGoogle = async () => {
         try {
             const res = await signInWithPopup(auth, googleProvider);
@@ -82,13 +99,14 @@ export const AuthUserProvider = ({ children }) => {
             const userQuery = query(collection(db, "users"), where("uid", "==", currentUser.uid));
             const docs = await getDocs(userQuery);
             if (docs.docs.length === 0) {
-                await addDoc(collection(db, "users"), {
+                await saveUser({
                     uid: currentUser.uid,
-                    name: currentUser.displayName,
+                    displayName: currentUser.displayName,
                     authProvider: "google",
                     email: currentUser.email
                 })
             }
+            if (currentUser) setDisplayName(currentUser.displayName)
         } catch (err) {
             console.error(err)
             setError(err.message)
@@ -97,8 +115,21 @@ export const AuthUserProvider = ({ children }) => {
 
     const logInWithEmailAndPassword = async (email, password) => {
         try {
-            await signInWithEmailAndPassword(auth, email, password);
-            
+            const res = await signInWithEmailAndPassword(auth, email, password);
+
+            const userQuery = query(collection(db, "users"), where("uid", "==", res.user.uid));
+            const docs = await getDocs(userQuery)
+            if (docs.docs.length === 0) {
+                await saveUser({
+                    uid: res.user.uid,
+                    displayName: res.user.displayName,
+                    authProvider: "local",
+                    email: res.user.email
+                })
+                return;
+            }
+            const currentUser = docs.docs[0].data()
+            setDisplayName(currentUser.displayName)
         } catch (err) {
             console.error(err)
             setError(err.message)
@@ -110,9 +141,10 @@ export const AuthUserProvider = ({ children }) => {
         try {
             const res = await createUserWithEmailAndPassword(auth, email, password)
             const user = res.user;
-            await addDoc(collection(db, "users"), {
+            setDisplayName(name)
+            await saveUser({
                 uid: user.uid,
-                name,
+                displayName: name,
                 authProvider: "local",
                 email
             })
@@ -137,6 +169,8 @@ export const AuthUserProvider = ({ children }) => {
     const logout = () => {
         try {
             signOut(auth);
+            setDisplayName('')
+            setUser(null)
         } catch (err) {
             console.error(err)
             setError(err.message)
@@ -148,7 +182,7 @@ export const AuthUserProvider = ({ children }) => {
        <AuthUser.Provider value={{
             user,
             userId,
-            setUser,
+            displayName,
             isAuthorized,
             isLoading,
             error,

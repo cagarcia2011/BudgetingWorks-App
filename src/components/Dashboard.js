@@ -15,7 +15,7 @@ import Budget from './budgets/Budget';
 import Budgets from './budgets/Budgets';
 import AddBudgetModal from './budgets/AddBudgetModal';
 // import AddExpenseModal from './expenses/AddExpenseModal';
-// import AddIncomeModal from './incomes/AddIncomeModal';
+import AddIncomeModal from './incomes/AddIncomeModal';
 
 const Dashboard = () => {
   const {userId, logout} = useAuthUser();
@@ -24,7 +24,7 @@ const Dashboard = () => {
   // const {refreshVariableExpenses} = useVariableExpenses();
   const [showAddBudgetModal, setShowAddBudgetModal] = useState(false);
   // const [showAddExpenseModal, setShowAddExpenseModal] = useState(false);
-  // const [showAddIncomeModal, setShowAddIncomeModal] = useState(false);
+  const [showAddIncomeModal, setShowAddIncomeModal] = useState(false);
   const [expandedMenu, setExpandedMenu] = useState(false)
 
   const navigate = useNavigate()
@@ -77,11 +77,11 @@ const Dashboard = () => {
       <AddExpenseModal 
         show={showAddExpenseModal}
         handleClose={() => setShowAddExpenseModal(false)}
-        />
+        />*/}
       <AddIncomeModal
         show={showAddIncomeModal}
         handleClose={() => setShowAddIncomeModal(false)}
-        /> */}
+        /> 
     </>
   )
 }

@@ -6,12 +6,11 @@ import { useIncomes } from './contexts/IncomesContext'
 import { currencyFormater } from '../utils';
 
 function DeleteIncomeModal({show, handleClose, incomeId, incomeCategory, incomeAmount, budgetMonthYear}) {
-    const { deleteIncome, refreshIncomes } = useIncomes();
+    const { deleteIncome } = useIncomes();
     
     function handleSubmit(e) {
         e.preventDefault()
         deleteIncome(incomeId)
-        refreshIncomes()
     }
   return (
     <Modal show={show} onHide={handleClose} >

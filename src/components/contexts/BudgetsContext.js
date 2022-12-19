@@ -8,7 +8,8 @@ import {
     addDoc,
     deleteDoc,
     doc,
-    updateDoc
+    updateDoc,
+    getDoc
 } from "firebase/firestore"
 import {
     db
@@ -35,9 +36,8 @@ export const BudgetsProvider = ({ children }) => {
                     where("uid", "==", userId)
                 )
                 getDocs(budgetQuery)
-                    .then((docs) => {
-                        console.log(docs.docs)
-                        setBudgets(docs.docs)
+                    .then((res) => {
+                        setBudgets(res.docs)
                     })
             } catch (err) {
                 console.error(err)
@@ -100,6 +100,38 @@ export const BudgetsProvider = ({ children }) => {
         }
     }
 
+    const getBudgetById = async (id) => {
+        if (!isAuthorized) return;
+        try {
+            const budget =  await getDoc(
+                doc(db, "budgets", id)
+            )
+
+            return budget
+
+        } catch (err) {
+            console.error(err)
+            return null;
+        }
+    }
+
+    const getBudgetsByMonthYear = async (monthYear) => {
+        if (!isAuthorized) return;
+        try {
+            const budgetQuery = query(
+                collection(db, "budgets"),
+                where("uid", "==", userId),
+                where("monthYear", "==", monthYear)
+            )
+            const response = await getDocs(budgetQuery);
+
+            return response.docs
+
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
     return (
         <BudgetsContext.Provider value={{
             budgets,
@@ -107,8 +139,8 @@ export const BudgetsProvider = ({ children }) => {
             deleteBudget,
             refreshBudgets,
             updateBudget,
-            // getBudgetsByMonthYear,
-            // getBudgetById,
+            getBudgetsByMonthYear,
+            getBudgetById,
         }}>
             {children}
         </BudgetsContext.Provider>

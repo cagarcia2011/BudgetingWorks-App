@@ -9,9 +9,9 @@ import { useIncomes } from "../contexts/IncomesContext"
 import { parseDate } from "../../utils/dateUtils"
 
 const AddIncomeModal = ({show, handleClose, budget_id}) => {
-    const {user} = useAuthUser();
-    const {budgets, refreshBudgets} = useBudgets()
-    const { saveIncome, refreshIncomes } = useIncomes()
+    const { userId } = useAuthUser();
+    const { budgets, refreshBudgets } = useBudgets()
+    const { saveIncome } = useIncomes()
 
     const [alertInfo, setAlertInfo] = useState({
         show: false,
@@ -66,16 +66,15 @@ const AddIncomeModal = ({show, handleClose, budget_id}) => {
         const budget_id = budgetRef.current.value
 
         const income = {
-            user_id: user.id,
+            uid: userId,
             category: category,
             txnDay: txnDay,
             comments: comments,
             amount: amount,
-            monthlyBudget_id: budget_id
+            budgetId: budget_id
         }
 
         saveIncome(income)
-        refreshIncomes()
         refreshBudgets()
         handleClose()
     }
@@ -121,7 +120,7 @@ const AddIncomeModal = ({show, handleClose, budget_id}) => {
                             label="Budget">
                             <Form.Select className="" ref={budgetRef} defaultValue={budget_id ? budget_id: null}>
                                 {budgets.length ? budgets.map((budget) => (
-                                    <option value={budget.id} key={budget.id}>{budget.monthYear}</option>
+                                    <option value={budget.id} key={budget.id}>{budget.data().monthYear}</option>
                                 )) : <option value="0">No Budgets Found</option>}
                             </Form.Select>
                         </FloatingLabel>
