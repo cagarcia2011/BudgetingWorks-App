@@ -1,24 +1,22 @@
 import React from 'react'
 import { Modal, Form, Stack, Button } from 'react-bootstrap';
 
-import { useFixedExpenses } from "../contexts/FixedExpensesContext"
-import { useVariableExpenses } from "../contexts/VariableExpensesContext"
+import { useExpenses } from "../contexts/ExpensesContext"
 
 import { currencyFormater } from '../../utils';
 
 function DeleteExpenseModal({ show, expenseId, expenseType, expenseCategory, expenseAmount, budgetMonthYear, handleClose}) {
-    const { deleteFixedExpense, refreshFixedExpenses } = useFixedExpenses();
-    const { deleteVariableExpense, refreshVariableExpenses } = useVariableExpenses();
+    const { deleteFixedExpense, refreshExpenses } = useExpenses();
 
     function handleSubmit(e) {
         e.preventDefault()
         if (expenseType === "variable") {
-            deleteVariableExpense(expenseId)
-            refreshVariableExpenses()
+            // deleteVariableExpense(expenseId)
+            // refreshVariableExpenses()
         }
         if (expenseType === "fixed"){
             deleteFixedExpense(expenseId)
-            refreshFixedExpenses()
+            refreshExpenses()
         }
         handleClose()
     }

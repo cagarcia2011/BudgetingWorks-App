@@ -3,16 +3,14 @@ import { useEffect, useRef, useState } from "react"
 
 import { useAuthUser } from "../contexts/UserContext"
 import { useBudgets } from "../contexts/BudgetsContext"
-import { useFixedExpenses } from "../contexts/FixedExpensesContext"
-import { useVariableExpenses } from "../contexts/VariableExpensesContext"
+import { useExpenses } from "../contexts/ExpensesContext"
 
 import { parseDate } from "../../utils/dateUtils"
 
 const AddExpenseModal = ({show, handleClose, budget_id}) => {
     const {user} = useAuthUser();
     const {budgets, refreshBudgets} = useBudgets()
-    const { saveFixedExpense, refreshFixedExpenses} = useFixedExpenses()
-    const { saveVariableExpense, refreshVariableExpenses } = useVariableExpenses()
+    const { saveFixedExpense, refreshExpenses} = useExpenses()
 
     const [isVariable, setIsVariable] = useState(true)
 
@@ -70,8 +68,10 @@ const AddExpenseModal = ({show, handleClose, budget_id}) => {
                 monthlyBudget_id: budget_id
             }
 
-            saveVariableExpense(expense)
-            refreshVariableExpenses()
+            console.log(expense)
+
+            // saveVariableExpense(expense)
+            // refreshVariableExpenses()
         } else {
             const expense = {
                 user_id: user.id,
@@ -82,7 +82,7 @@ const AddExpenseModal = ({show, handleClose, budget_id}) => {
             }
 
             saveFixedExpense(expense)
-            refreshFixedExpenses()
+            refreshExpenses()
         }
 
         refreshBudgets()

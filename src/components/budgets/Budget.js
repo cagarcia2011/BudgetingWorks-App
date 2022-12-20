@@ -10,16 +10,14 @@ import AddIncomeModal from "../incomes/AddIncomeModal";
 import AddExpenseModal from "../expenses/AddExpenseModal";
 import { useBudgets } from "../contexts/BudgetsContext";
 import { currencyFormater, getVariant } from "../../utils";
-import { useFixedExpenses } from "../contexts/FixedExpensesContext";
-import { useVariableExpenses } from "../contexts/VariableExpensesContext";
+// import { useExpenses } from "../contexts/ExpensesContext";
 import Expenses from "../expenses/Expenses";
 
 const Budget = ({ handleRefresh }) => {
     const params = useParams();
     const index = params.index ? params.index : null;
     const { budgets } = useBudgets();
-    const { fixedExpenses } = useFixedExpenses();
-    const { variableExpenses } = useVariableExpenses();
+    // const { expenses } = useExpenses();
     const [showDeleteBudgetModal, setShowDeleteBudgetModal] = useState(false)
     const [showEditBudgetModal, setShowEditBudgetModal] = useState(false)
     const [showAddIncomeModal, setShowAddIncomeModal] = useState(false)
@@ -36,13 +34,13 @@ const Budget = ({ handleRefresh }) => {
     const income = budget.incomes
     const cash = budget.startingCash
 
-    function extractVariableExpenses(expenses) {
-        if (variableExpenses.length === 0) return []
+    // function extractVariableExpenses(expenses) {
+    //     if (variableExpenses.length === 0) return []
 
-        return variableExpenses.filter((expense) => {
-            return expense.monthlyBudget_id === budget.id
-        })
-    }
+    //     return variableExpenses.filter((expense) => {
+    //         return expense.monthlyBudget_id === budget.id
+    //     })
+    // }
 
   return (
     <>
@@ -77,16 +75,16 @@ const Budget = ({ handleRefresh }) => {
             <div className='mx-4'>
                 {budget.comments}
             </div>
-            {variableExpenses.length === 0 ? <></> :  
+            {/* {variableExpenses.length === 0 ? <></> :  
             <Container className="my-4">
                 <h4 className="">Variable Expenses</h4>
                 <Expenses expenses={extractVariableExpenses(variableExpenses)} budgetMonthYear={date} type={"variable"} handleRefresh={handleRefresh}/>
             </Container>
-            }
-            {fixedExpenses.length === 0 ? <></> :
+            } */}
+            {expenses.length === 0 ? <></> :
             <Container className="my-4">
                 <h4 className="">Fixed Expenses</h4>
-                <Expenses expenses={fixedExpenses} budgetMonthYear={date} type={"fixed"} handleRefresh={handleRefresh}/>
+                <Expenses expenses={expenses} budgetMonthYear={date} type={"fixed"} handleRefresh={handleRefresh}/>
             </Container>
             }
         </Container>
