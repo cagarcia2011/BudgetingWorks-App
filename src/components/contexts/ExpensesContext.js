@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 
-import { addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
+import { addDoc, getDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { db } from "../../firebase";
 
 import { useAuthUser } from "./UserContext";
@@ -65,6 +65,19 @@ export const ExpensesProvider = ({ children }) => {
     }
   }
 
+  const getExpenseById = async (id) => {
+    if (!isAuthorized) return;
+    try {
+        const expense = await getDoc(
+            doc(db, "expenses", id)
+        )
+        return expense
+    } catch (err) {
+        console.error(err)
+        return null;
+    }
+}
+
   return (
     <Expenses.Provider
       value={{
@@ -73,7 +86,7 @@ export const ExpensesProvider = ({ children }) => {
         saveExpense,
         updateExpense,
         deleteExpense,
-        // getExpensesById,
+        getExpenseById
       }}
     >
       {children}

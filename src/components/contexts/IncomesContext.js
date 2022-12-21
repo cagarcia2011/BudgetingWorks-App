@@ -8,7 +8,8 @@ import {
     updateDoc,
     where,
     doc,
-    deleteDoc
+    deleteDoc,
+    getDoc
 } from "firebase/firestore"
 
 import { db } from "../../firebase"
@@ -96,14 +97,27 @@ export const IncomesProvider = ({ children }) => {
         }
     }
 
+    const getIncomeById = async (id) => {
+        if (!isAuthorized) return;
+        try {
+            const income = await getDoc(
+                doc(db, "incomes", id)
+            )
+            return income
+        } catch (err) {
+            console.error(err)
+            return null;
+        }
+    }
+
     return (
         <Incomes.Provider value={{
             incomes,
             refreshIncomes,
             saveIncome,
             updateIncome,
-            deleteIncome
-            // getIncomesById,
+            deleteIncome,
+            getIncomeById
         }}>
             {children}
         </Incomes.Provider>
