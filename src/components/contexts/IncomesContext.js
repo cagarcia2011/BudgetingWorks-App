@@ -78,6 +78,7 @@ export const IncomesProvider = ({ children }) => {
                 docRef,
                 income
             )
+            await refreshIncomes();
         } catch (err) {
             console.error(err)
         }
