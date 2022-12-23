@@ -8,9 +8,9 @@ import { useExpenses } from "../contexts/ExpensesContext"
 import { parseDate } from "../../utils/dateUtils"
 
 const AddExpenseModal = ({show, handleClose, budget_id}) => {
-    const {user} = useAuthUser();
+    const {userId} = useAuthUser();
     const {budgets, refreshBudgets} = useBudgets()
-    const { saveFixedExpense, refreshExpenses} = useExpenses()
+    const { saveExpense, refreshExpenses} = useExpenses()
 
     const [isVariable, setIsVariable] = useState(true)
 
@@ -54,37 +54,21 @@ const AddExpenseModal = ({show, handleClose, budget_id}) => {
             txnDay = 1
         }
         const category = categoryRef.current.value
-        const amount = amountRef.current.value
+        const amount = parseFloat(amountRef.current.value)
         const comments = commentsRef.current.value
-        if (isVariable) {
-            const budget_id = budgetRef.current.value
 
-            const expense = {
-                user_id: user.id,
-                category: category,
-                txnDay: txnDay,
-                comments: comments,
-                amount: amount,
-                monthlyBudget_id: budget_id
-            }
-
-            console.log(expense)
-
-            // saveVariableExpense(expense)
-            // refreshVariableExpenses()
-        } else {
-            const expense = {
-                user_id: user.id,
-                category: category,
-                txnDay: txnDay,
-                comments: comments,
-                amount: amount
-            }
-
-            saveFixedExpense(expense)
-            refreshExpenses()
+        const expense = {
+            uid: userId,
+            type: isVariable ? "variable" : "fixed",
+            category,
+            txnDay,
+            comments,
+            amount,
+            budgetId: isVariable ? budget_id : null
         }
-
+        
+        saveExpense(expense)
+        refreshExpenses()
         refreshBudgets()
         handleClose()
     }
@@ -151,7 +135,7 @@ const AddExpenseModal = ({show, handleClose, budget_id}) => {
                                 label="Budget">
                                 <Form.Select className="" ref={budgetRef} defaultValue={budget_id ? budget_id : null}>
                                     {budgets.length ? budgets.map((budget) => (
-                                        <option value={budget.id} key={budget.id}>{budget.monthYear}</option>
+                                        <option value={budget.id} key={budget.id}>{budget.data().monthYear}</option>
                                     )) : <option value="0">No Budgets Found</option>}
                                 </Form.Select>
                             </FloatingLabel>

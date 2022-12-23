@@ -11,7 +11,7 @@ import { parseDate } from "../../utils/dateUtils"
 const AddIncomeModal = ({show, handleClose, budget_id}) => {
     const { userId } = useAuthUser();
     const { budgets, refreshBudgets } = useBudgets()
-    const { saveIncome } = useIncomes()
+    const { saveIncome, refreshIncomes } = useIncomes()
 
     const [alertInfo, setAlertInfo] = useState({
         show: false,
@@ -61,20 +61,21 @@ const AddIncomeModal = ({show, handleClose, budget_id}) => {
             txnDay = 1
         }
         const category = categoryRef.current.value
-        const amount = amountRef.current.value
+        const amount = parseFloat(amountRef.current.value)
         const comments = commentsRef.current.value
-        const budget_id = budgetRef.current.value
+        const budgetId = budgetRef.current.value
 
         const income = {
             uid: userId,
-            category: category,
-            txnDay: txnDay,
-            comments: comments,
-            amount: amount,
-            budgetId: budget_id
+            category,
+            txnDay,
+            comments,
+            amount,
+            budgetId
         }
 
         saveIncome(income)
+        refreshIncomes();
         refreshBudgets()
         handleClose()
     }

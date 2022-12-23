@@ -4,7 +4,7 @@ import ExpenseCard from './ExpenseCard'
 
 import { gridStyle } from '../../styles/styles'
 
-function Expenses({expenses, budgetMonthYear, type, handleRefresh}) {
+const Expenses = ({expenses, budgetMonthYear, handleRefresh}) => {
   return (
     <div style={gridStyle}>
         {expenses.map((expense, index) => (
@@ -13,7 +13,6 @@ function Expenses({expenses, budgetMonthYear, type, handleRefresh}) {
                 expense={expense} 
                 index={index} 
                 budgetMonthYear={budgetMonthYear}
-                type={type}
                 handleRefresh={handleRefresh}
                 />
         ))}

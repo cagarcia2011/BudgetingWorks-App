@@ -12,19 +12,18 @@ import { currencyFormater } from '../../utils'
 import DeleteExpenseModal from './DeleteExpenseModal';
 // import EditExpenseModal from './EditExpenseModal;
 
-function ExpenseCard({ expense, type, index, budgetMonthYear, handleRefresh }) {
+function ExpenseCard({ expense, index, budgetMonthYear, handleRefresh }) {
     const [showDeleteExpenseModal, setShowDeleteExpenseModal] = useState(false)
     const [showComments, setShowComments] = useState(false)
 
-    const amount = expense.amount
-    const category = expense.category
-    const comments = expense.comments
-    const typeText = type === 'variable' ? 'Variable' : 'Fixed'
+    const amount = expense.data().amount
+    const category = expense.data().category
+    const comments = expense.data().comments
+    const typeText = expense.data().type === 'variable' ? 'Variable' : 'Fixed'
 
     function handleShowComment(e) {
         e.preventDefault()
-        if (showComments) setShowComments(false)
-        else setShowComments(true)
+        setShowComments(prev => !prev)
     }
 
   return (
@@ -64,7 +63,7 @@ function ExpenseCard({ expense, type, index, budgetMonthYear, handleRefresh }) {
         <DeleteExpenseModal
             show={showDeleteExpenseModal}
             expenseId={expense.id}
-            expenseType={type}
+            expenseType={expense.data().type}
             expenseCategory={category}
             expenseAmount={amount}
             budgetMonthYear={budgetMonthYear}

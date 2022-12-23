@@ -5,34 +5,34 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import Container from 'react-bootstrap/Container'
 import { Button } from 'react-bootstrap';
 
-import { useBudgets } from './contexts/BudgetsContext';
-// import { useFixedExpenses } from './contexts/FixedExpensesContext';
-// import { useVariableExpenses } from './contexts/VariableExpensesContext';
 import { useAuthUser } from './contexts/UserContext';
+import { useBudgets } from './contexts/BudgetsContext';
+import { useExpenses } from './contexts/ExpensesContext';
+import { useIncomes } from './contexts/IncomesContext';
 
 import NavBar from './NavBar';
 import Budget from './budgets/Budget';
 import Budgets from './budgets/Budgets';
 import AddBudgetModal from './budgets/AddBudgetModal';
-// import AddExpenseModal from './expenses/AddExpenseModal';
+import AddExpenseModal from './expenses/AddExpenseModal';
 import AddIncomeModal from './incomes/AddIncomeModal';
 
 const Dashboard = () => {
   const {userId, logout} = useAuthUser();
   const {budgets, refreshBudgets} = useBudgets();
-  // const {refreshFixedExpenses} = useFixedExpenses();
-  // const {refreshVariableExpenses} = useVariableExpenses();
+  const { refreshExpenses } = useExpenses();
+  const { refreshIncomes } = useIncomes();
   const [showAddBudgetModal, setShowAddBudgetModal] = useState(false);
-  // const [showAddExpenseModal, setShowAddExpenseModal] = useState(false);
+  const [showAddExpenseModal, setShowAddExpenseModal] = useState(false);
   const [showAddIncomeModal, setShowAddIncomeModal] = useState(false);
   const [expandedMenu, setExpandedMenu] = useState(false)
 
   const navigate = useNavigate()
   
-  function handleRefresh(e) {
-    // refreshFixedExpenses()
-    // refreshVariableExpenses()
-    refreshBudgets()
+  async function handleRefresh(e) {
+    refreshIncomes();
+    refreshExpenses();
+    refreshBudgets();
   }
   
   function handleLogout(e) {
@@ -48,9 +48,9 @@ const Dashboard = () => {
         handleExpand={() => setExpandedMenu(true)}
         handleRefresh={handleRefresh} 
         handleLogout={handleLogout} 
-        // setShowAddBudgetModal={setShowAddBudgetModal}
-        // setShowAddIncomeModal={setShowAddIncomeModal}
-        // setShowAddExpenseModal={setShowAddExpenseModal}
+        setShowAddBudgetModal={setShowAddBudgetModal}
+        setShowAddIncomeModal={setShowAddIncomeModal}
+        setShowAddExpenseModal={setShowAddExpenseModal}
         />
       {budgets.length ? 
       <Container className='my-4'>
@@ -73,11 +73,11 @@ const Dashboard = () => {
         show={showAddBudgetModal}
         handleClose={() => setShowAddBudgetModal(false)}
         userId={userId}/>
-      {/* 
+      
       <AddExpenseModal 
         show={showAddExpenseModal}
         handleClose={() => setShowAddExpenseModal(false)}
-        />*/}
+        />
       <AddIncomeModal
         show={showAddIncomeModal}
         handleClose={() => setShowAddIncomeModal(false)}

@@ -5,21 +5,22 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import App from './App';
 
-import { BudgetsProvider } from './components/contexts/BudgetsContext';
-// import { FixedExpensesProvider } from './components/contexts/FixedExpensesContext';
-// import { VariableExpensesProvider } from './components/contexts/VariableExpensesContext';
-import { IncomesProvider } from './components/contexts/IncomesContext';
 import { AuthUserProvider } from './components/contexts/UserContext';
+import { IncomesProvider } from './components/contexts/IncomesContext';
+import { ExpensesProvider } from './components/contexts/ExpensesContext';
+import { BudgetsProvider } from './components/contexts/BudgetsContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <AuthUserProvider>
-      <BudgetsProvider>
-        <IncomesProvider>
-          <App />
-        </IncomesProvider>
-      </BudgetsProvider>
+      <IncomesProvider>
+        <ExpensesProvider>
+          <BudgetsProvider>
+            <App />
+          </BudgetsProvider>
+        </ExpensesProvider>
+      </IncomesProvider>
     </AuthUserProvider>
   </React.StrictMode>
 );

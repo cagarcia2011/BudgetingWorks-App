@@ -1,9 +1,9 @@
 import React from 'react'
 import { Modal, Form, Stack, Button } from 'react-bootstrap'
 
-import { useIncomes } from './contexts/IncomesContext'
+import { useIncomes } from '../contexts/IncomesContext'
 
-import { currencyFormater } from '../utils';
+import { currencyFormater } from '../../utils';
 
 function DeleteIncomeModal({show, handleClose, incomeId, incomeCategory, incomeAmount, budgetMonthYear}) {
     const { deleteIncome } = useIncomes();

@@ -6,18 +6,12 @@ import { useExpenses } from "../contexts/ExpensesContext"
 import { currencyFormater } from '../../utils';
 
 function DeleteExpenseModal({ show, expenseId, expenseType, expenseCategory, expenseAmount, budgetMonthYear, handleClose}) {
-    const { deleteFixedExpense, refreshExpenses } = useExpenses();
+    const { deleteExpense, refreshExpenses } = useExpenses();
 
     function handleSubmit(e) {
         e.preventDefault()
-        if (expenseType === "variable") {
-            // deleteVariableExpense(expenseId)
-            // refreshVariableExpenses()
-        }
-        if (expenseType === "fixed"){
-            deleteFixedExpense(expenseId)
-            refreshExpenses()
-        }
+        deleteExpense(expenseId)
+        refreshExpenses()
         handleClose()
     }
 
