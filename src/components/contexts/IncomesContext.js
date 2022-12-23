@@ -137,15 +137,14 @@ export const IncomesProvider = ({ children }) => {
         if (!isAuthorized) return;
         try {
             const incomeRef = getIncomeRef(incomeId)
-            const budgetRef = getBudgetRef(getIncomeById(incomeId).data().budgetId)
+            const income = await getIncomeById(incomeId)
+            const budgetRef = getBudgetRef(income.data().budgetId)
 
             await runTransaction(db, async (transaction) => {
                 const budgetDocRef = await transaction.get(budgetRef)
                 if (!budgetDocRef.exists) throw new Error("Doc does not exist")
-                const incomeDocRef = await transaction.get(incomeRef)
-                if (!incomeDocRef.exists) throw new Error("Doc does not exist")
 
-                const incomeAmount = incomeDocRef.data().amount
+                const incomeAmount = income.data().amount
                 const newIncomeAmount = budgetDocRef.data().incomes - incomeAmount
 
                 transaction.update(

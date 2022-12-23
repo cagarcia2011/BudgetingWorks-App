@@ -41,7 +41,7 @@ const EditBudgetModal = ({ show, handleClose, budget}) => {
                             <Form.Control 
                                 className="mx-2"
                                 ref={startingCashRef}
-                                defaultValue={budget.startingCash}
+                                defaultValue={budget.data().startingCash}
                                 type="number"
                                 required
                                 min={0}
@@ -57,7 +57,7 @@ const EditBudgetModal = ({ show, handleClose, budget}) => {
                             rows={3}
                             className="mx-4"
                             ref={commentsRef}
-                            defaultValue={budget.comments}
+                            defaultValue={budget.data().comments}
                             type="text"/>
                     </Form.Group>
                 </div>
