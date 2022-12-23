@@ -64,7 +64,7 @@ const BudgetCard = ({ budget, index }) => {
                 </div>
                 <div className=''>
                     {showComments ? 
-                        budget.comments : 
+                        budget.data().comments : 
                         <></>}
                 </div>
                 <Stack direction='horizontal' gap='2' className='mt-4'>

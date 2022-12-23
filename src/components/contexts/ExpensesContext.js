@@ -133,7 +133,6 @@ export const ExpensesProvider = ({ children }) => {
     try {
        const expenseRef = getExpenseRef(id)
        const expense = await getExpenseById(id)
-       console.log(expense.data().budgetId)
        const budgetRef = expense.data().budgetId ? getBudgetRef(expense.data().budgetId) : null
        
        await runTransaction(db, async (transaction) => {
